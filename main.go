@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"flag"
 	"fmt"
 	"io"
 	"net/http"
@@ -16,6 +15,7 @@ import (
 type Job struct {
 	CommentVideoUrl string
 	VideoUrl        string
+	UploadId        string
 }
 
 func getJob() *Job {
@@ -26,6 +26,7 @@ func getJob() *Job {
 
 	j.CommentVideoUrl = os.Getenv("COMMENT_VIDEO_URL")
 	j.VideoUrl = os.Getenv("VIDEO_URL")
+	j.UploadId = "upload1"
 
 	return j
 
@@ -283,37 +284,39 @@ func printHelp() {
 
 func main() {
 
-	fmt.Println("Starting processing")
+	// fmt.Println("Starting processing")
 
-	videoUrl := flag.String("video", "", "Video url")
-	commentUrl := flag.String("comment", "", "Comment video url")
-	uploadId := flag.String("uploadId", "", "Upload id")
+	// videoUrl := flag.String("video", "", "Video url")
+	// commentUrl := flag.String("comment", "", "Comment video url")
+	// uploadId := flag.String("uploadId", "", "Upload id")
 
-	flag.Parse()
+	// flag.Parse()
 
-	if *videoUrl == "" {
-		fmt.Println("Video url is required")
-		printHelp()
-		return
-	}
+	// if *videoUrl == "" {
+	// 	fmt.Println("Video url is required")
+	// 	printHelp()
+	// 	return
+	// }
 
-	if *commentUrl == "" {
-		fmt.Println("Comment video url is required")
-		printHelp()
-		return
-	}
+	// if *commentUrl == "" {
+	// 	fmt.Println("Comment video url is required")
+	// 	printHelp()
+	// 	return
+	// }
 
-	if *uploadId == "" {
-		fmt.Println("Upload id is required")
-		printHelp()
+	// if *uploadId == "" {
+	// 	fmt.Println("Upload id is required")
+	// 	printHelp()
 
-		return
-	}
+	// 	return
+	// }
 
-	job := &Job{
-		CommentVideoUrl: *commentUrl,
-		VideoUrl:        *videoUrl,
-	}
+	// job := &Job{
+	// 	CommentVideoUrl: *commentUrl,
+	// 	VideoUrl:        *videoUrl,
+	// }
+
+	job := getJob()
 
 	fmt.Println("downloading video")
 	job.DownloadVideos()
@@ -332,7 +335,7 @@ func main() {
 	// job.shrinkOutput()
 
 	fmt.Println("uploading video")
-	job.UploadVideo(*uploadId)
+	job.UploadVideo(job.UploadId)
 	fmt.Println("uploaded video")
 
 }

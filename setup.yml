@@ -30,6 +30,7 @@
           - curl
           - gnupg-agent
           - software-properties-common
+          - screen
         state: latest
         update_cache: yes
     - name: GPG key
@@ -86,13 +87,19 @@
 
     - name: download video
       get_url:
-        url: 	https://d213lwr54yo0m8.cloudfront.net/0_232.mp4
+        url: 	https://d213lwr54yo0m8.cloudfront.net/0_234.mp4
         dest: /home/ubuntu/codefiles/video.mp4
     - name: download comment
       get_url:
-        url: https://griffin-record-input.s3.amazonaws.com/335_comments_%40griffingaming.mp4
+        url: https://griffin-record-input.s3.amazonaws.com/337_comments_%40griffingaming.mp4
         dest: /home/ubuntu/codefiles/comment.mp4
         
+    - name: run main.go in screen
+      become: true
+      shell: |
+        cd /home/ubuntu/codefiles
+        screen -dmS main go run .
+      
 
   
   
